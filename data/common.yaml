@@ -3,11 +3,8 @@ lookup_options:
   apt::sources:
     merge:
       strategy: hash
-
-classes:
-  - timezone
-
-# https://github.com/kenyon/puppet
+  mysql::server::override_options:
+    merge: deep
 timezone::timezone: Africa/Johannesburg
 apt::apt_update_frequency: always
 apt::always_apt_update: true
@@ -86,11 +83,29 @@ mysql::server::package_name: "mysql-community-server" # required for proper MySQ
 mysql::server::package_ensure: 'present'
 mysql::server::root_password: "change_me_i_am_insecure"
 mysql::server::manage_config_file: true
-mysql::server::service_name: 'mysqld' # required for puppet module
+mysql::server::service_name: 'mysql'
+mysql::server::restart: true
 mysql::server::override_options:
-  'mysqld':
-    'bind-address': '0.0.0.0'
-    'log-error': '/var/log/mysqld.log' # required for proper MySQL installation
-  'mysqld_safe':
-    'log-error': '/var/log/mysqld.log'  # required for proper MySQL installation
-
+  mysqld:
+    bind-address: '0.0.0.0'
+    character-set-server: utf8mb4
+    collation-server: utf8mb4_unicode_ci
+    datadir: /var/lib/mysql
+    default-storage-engine: innodb
+    innodb_buffer_pool_instances: 8
+    innodb_buffer_pool_size: 11G
+    innodb_data_file_path: 'ibdata1:10M:autoextend'
+    innodb_file_per_table: 1
+    innodb_flush_method: O_DIRECT
+    innodb_log_file_size: 256M
+    interactive_timeout: 28800
+    long_query_time: '5'
+    max_allowed_packet: 100M
+    max_connect_errors: '50000'
+    max_connections: 500
+    open-files-limit: 151072
+    skip-name-resolve: 1
+    slow_query_log: '1'
+    slow_query_log_file: 'mysql-slow.log'
+    wait_timeout: 28800
+    disable_log_bin: 1
