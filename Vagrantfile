@@ -33,13 +33,8 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision :bolt do |bolt|
-    #bolt.project = './src'
     bolt.command = :plan
     bolt.name = $project_name
     bolt.run_as = "root"
   end
-
-#    DEBIAN_FRONTEND=noninteractive apt-get -fy --no-install-suggests --no-install-recommends  install \
-#    chrony git-core dnsutils vim dirmngr apt-transport-https cpanminus curl wget lsb-release \
-#    libc6-dev gcc make rsync net-tools xfonts-utils fontconfig jq -fy
 end

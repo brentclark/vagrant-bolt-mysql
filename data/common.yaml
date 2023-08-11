@@ -34,7 +34,7 @@ apt::sources:
     key:
       id: 630239CC130E1A7FD81A27B140976EAF437D05B5
   ubuntu-security:
-    location: http://archive.ubuntu.com/ubuntu
+    location: http://security.ubuntu.com/ubuntu
     release: "%{::lsbdistcodename}-security"
     repos: main universe multiverse restricted
     key:
@@ -67,6 +67,13 @@ apt::sources:
     repos: puppet-tools
     include:
       src: false
+  puppet:
+    location: https://apt.puppet.com
+    release: '%{facts.os.distro.codename}'
+    repos: puppet
+    include:
+      src: false
+
 apt::pins:
   mysql-server:
     priority: 1001
@@ -74,3 +81,16 @@ apt::pins:
     release: '%{::lsbdistcodename}'
     packages:
       - mysql-server
+mysql::client::package_name: "mysql-community-client" # required for proper MySQL installation
+mysql::server::package_name: "mysql-community-server" # required for proper MySQL installation
+mysql::server::package_ensure: 'present'
+mysql::server::root_password: "change_me_i_am_insecure"
+mysql::server::manage_config_file: true
+mysql::server::service_name: 'mysqld' # required for puppet module
+mysql::server::override_options:
+  'mysqld':
+    'bind-address': '0.0.0.0'
+    'log-error': '/var/log/mysqld.log' # required for proper MySQL installation
+  'mysqld_safe':
+    'log-error': '/var/log/mysqld.log'  # required for proper MySQL installation
+
