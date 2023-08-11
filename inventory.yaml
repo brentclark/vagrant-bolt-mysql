@@ -1,0 +1,18 @@
+---
+version: 2
+groups:
+  - name: linux
+    targets:
+      - name: vagrant
+        uri: ssh://127.0.0.1:2200
+        config:
+          transport: ssh
+          ssh:
+            private-key: .vagrant/machines/default/virtualbox/private_key
+config:
+  transport: ssh
+  ssh:
+    user: vagrant
+    password: vagrant
+    host-key-check: false
+    run-as: root

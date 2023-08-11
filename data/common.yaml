@@ -1,0 +1,76 @@
+---
+lookup_options:
+  apt::sources:
+    merge:
+      strategy: hash
+
+classes:
+  - timezone
+
+# https://github.com/kenyon/puppet
+timezone::timezone: Africa/Johannesburg
+apt::apt_update_frequency: always
+apt::always_apt_update: true
+apt::update::frequency: always
+apt::purge:
+  sources.list: true
+  sources.list.d: true
+  preferences: true
+  preferences.d: true
+unattended_upgrades::syslog_enable: true
+unattended_upgrades::autoclean: 7
+unattended_upgrades::autoremove: true
+apt::sources:
+  ubuntu-main:
+    location: http://archive.ubuntu.com/ubuntu
+    release: "%{::lsbdistcodename}"
+    repos: main universe multiverse restricted
+    key:
+      id: 630239CC130E1A7FD81A27B140976EAF437D05B5
+  ubuntu-updates:
+    location: http://archive.ubuntu.com/ubuntu
+    release: "%{::lsbdistcodename}-updates"
+    repos: main universe multiverse restricted
+    key:
+      id: 630239CC130E1A7FD81A27B140976EAF437D05B5
+  ubuntu-security:
+    location: http://archive.ubuntu.com/ubuntu
+    release: "%{::lsbdistcodename}-security"
+    repos: main universe multiverse restricted
+    key:
+      id: 630239CC130E1A7FD81A27B140976EAF437D05B5
+  ubuntu-backports:
+    location: http://archive.ubuntu.com/ubuntu
+    release: "%{::lsbdistcodename}-backports"
+    repos: main universe multiverse restricted
+    key:
+      id: 630239CC130E1A7FD81A27B140976EAF437D05B5
+  mysql-server:
+    location: 'http://repo.mysql.com/apt/ubuntu'
+    release: '%{facts.os.distro.codename}'
+    repos: 'mysql-8.0'
+    key:
+      id: '3A79BD29'
+      server: 'hkp://keyserver.ubuntu.com:80'
+  percona_tools:
+    include:
+      src: false
+    key:
+      id: '4D1BB29D63D98E422B2113B19334A25F8507EFA5'
+      server: 'keyserver.ubuntu.com'
+    location: "http://repo.percona.com/tools/apt/"
+    release: "%{os.distro.codename}"
+    repos: 'main'
+  puppet-tools:
+    location: https://apt.puppet.com
+    release: '%{facts.os.distro.codename}'
+    repos: puppet-tools
+    include:
+      src: false
+apt::pins:
+  mysql-server:
+    priority: 1001
+    explanation: 'mysql-server: repo.mysql.com'
+    release: '%{::lsbdistcodename}'
+    packages:
+      - mysql-server

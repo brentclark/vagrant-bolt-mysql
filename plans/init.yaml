@@ -1,0 +1,31 @@
+# This is the structure of a simple plan. To learn more about writing
+# YAML plans, see the documentation: http://pup.pt/bolt-yaml-plans
+
+description: vagrant-bolt-mysql::init
+
+# The parameters key defines the parameters that can be passed to
+# the plan.
+parameters:
+  targets:
+    type: TargetSpec
+    description: A list of targets to run actions on
+
+# The steps key defines the actions the plan will take in order.
+steps:
+  - message: vagrant-bolt-mysql::init
+
+  - plan: facts
+    description: "Gather facts"
+    parameters:
+      targets: $targets
+
+  - name: install_mysql
+    targets: $targets
+    resources:
+      - class: apt
+      - class: unattended_upgrades
+      - class: chrony
+      - class: timezone
+      - class: mysql::server
+# The return key sets the return value of the plan.
+return: $install_mysql

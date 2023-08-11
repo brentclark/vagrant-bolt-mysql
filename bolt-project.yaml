@@ -1,0 +1,9 @@
+---
+name: vagrant_bolt_mysql
+modules:
+- puppetlabs/mysql
+- puppetlabs/apt
+- puppet/unattended_upgrades
+- puppet/chrony
+- saz/timezone
+- puppetlabs/facts

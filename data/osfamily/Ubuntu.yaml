@@ -1,0 +1,25 @@
+apt::sources:
+  ubuntu-main:
+    location: http://archive.ubuntu.com/ubuntu
+    release: "%{::lsbdistcodename}"
+    repos: main universe multiverse restricted
+    key:
+      id: 630239CC130E1A7FD81A27B140976EAF437D05B5
+  ubuntu-updates:
+    location: http://archive.ubuntu.com/ubuntu
+    release: "%{::lsbdistcodename}-updates"
+    repos: main universe multiverse restricted
+    key:
+      id: 630239CC130E1A7FD81A27B140976EAF437D05B5
+  ubuntu-security:
+    location: http://archive.ubuntu.com/ubuntu
+    release: "%{::lsbdistcodename}-security"
+    repos: main universe multiverse restricted
+    key:
+      id: 630239CC130E1A7FD81A27B140976EAF437D05B5
+  ubuntu-backports:
+    location: http://archive.ubuntu.com/ubuntu
+    release: "%{::lsbdistcodename}-backports"
+    repos: main universe multiverse restricted
+    key:
+      id: 630239CC130E1A7FD81A27B140976EAF437D05B5
